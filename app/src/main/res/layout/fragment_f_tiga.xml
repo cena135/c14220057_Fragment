@@ -4,17 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black"
+    android:background="#9e72c3"
     tools:context=".fTiga">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@color/black"
-        android:id="@+id/frameContainer"
-        android:textColor="@color/white"
-        android:text="kon3" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:layout_marginTop="160dp"
+        android:layout_gravity="center"
+        android:text="Input Batas Awal"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:hint="input angka"
+        android:layout_gravity="center"
+        android:id="@+id/edtInput"/>
+
+
 
 </LinearLayout>
