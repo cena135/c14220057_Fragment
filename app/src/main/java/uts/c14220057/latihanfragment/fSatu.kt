@@ -14,8 +14,8 @@ private const val ARG_PARAM2 = "param2"
 class fSatu : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
-    private var firstButton: Button? = null // Track the first button pressed
-    private var firstButtonNumber: Int? = null // Track the number on the first button pressed
+    private var firstButton: Button? = null
+    private var firstButtonNumber: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +31,12 @@ class fSatu : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_f_satu, container, false)
 
-        // Randomize button numbers
         randomizeButtonNumbers(view)
 
         return view
     }
 
     private fun randomizeButtonNumbers(view: View) {
-        // Get references to the buttons
         val buttons = arrayOf(
             view.findViewById<Button>(R.id.btn1),
             view.findViewById<Button>(R.id.btn2),
@@ -60,33 +58,25 @@ class fSatu : Fragment() {
             button.setTextColor(android.graphics.Color.TRANSPARENT)
 
             button.setOnClickListener {
-                // Show the number and change color
                 button.text = numbers[index].toString()
                 button.setTextColor(android.graphics.Color.BLACK)
 
                 if (firstButton == null) {
-                    // First button pressed
                     firstButton = button
                     firstButtonNumber = numbers[index]
                 } else {
-                    // Second button pressed
                     val secondButton = button
                     val secondButtonNumber = numbers[index]
 
-                    // Check if numbers match
                     if (firstButtonNumber == secondButtonNumber) {
-                        // If the same, reset firstButton to null
                         firstButton = null
                     } else {
-                        // If different, keep the numbers visible for 1 second
                         Handler().postDelayed({
-                            // Hide numbers by resetting text and color
                             firstButton?.text = ""
                             firstButton?.setTextColor(android.graphics.Color.TRANSPARENT)
                             secondButton.text = ""
                             secondButton.setTextColor(android.graphics.Color.TRANSPARENT)
 
-                            // Reset firstButton to null
                             firstButton = null
                         }, 1000)
                     }
