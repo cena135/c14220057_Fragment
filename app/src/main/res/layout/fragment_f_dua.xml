@@ -21,10 +21,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Score"
+        android:text="50"
         android:textColor="@color/white"
-        android:textSize="40dp"
-        android:id="@+id/txtScore"/>
+        android:textSize="200dp"
+        android:id="@+id/tvScore"/>
+
+    <Button
+        android:id="@+id/btnPlayAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Play again?"/>
 
 
 </LinearLayout>

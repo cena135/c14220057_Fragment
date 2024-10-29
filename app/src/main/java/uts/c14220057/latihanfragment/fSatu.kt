@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 private const val ARG_PARAM1 = "param1"
@@ -16,6 +17,17 @@ class fSatu : Fragment() {
     private var param2: String? = null
     private var firstButton: Button? = null
     private var firstButtonNumber: Int? = null
+    var score: Int = 50
+
+    fun transitionToFDua() {
+        val mfDua = fDua.newInstance(score.toString(), "") // Pass the score as param1
+        val mFragmentManager = parentFragmentManager
+        mFragmentManager.beginTransaction().apply {
+            replace(R.id.frameContainer, mfDua, fDua::class.java.simpleName)
+            addToBackStack(null)
+            commit()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +37,23 @@ class fSatu : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val _btnGiveUp = view.findViewById<Button>(R.id.btnGiveUp)
+        _btnGiveUp.setOnClickListener {
+            transitionToFDua()
+        }
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_f_satu, container, false)
+
+        val _tvScore = view.findViewById<TextView>(R.id.tvScore)
+        _tvScore.text = score.toString()
 
         randomizeButtonNumbers(view)
 
@@ -58,6 +82,8 @@ class fSatu : Fragment() {
             button.setTextColor(android.graphics.Color.TRANSPARENT)
 
             button.setOnClickListener {
+                if (button.text.isNotEmpty()) return@setOnClickListener
+
                 button.text = numbers[index].toString()
                 button.setTextColor(android.graphics.Color.BLACK)
 
@@ -68,22 +94,42 @@ class fSatu : Fragment() {
                     val secondButton = button
                     val secondButtonNumber = numbers[index]
 
-                    if (firstButtonNumber == secondButtonNumber) {
-                        firstButton = null
-                    } else {
-                        Handler().postDelayed({
-                            firstButton?.text = ""
-                            firstButton?.setTextColor(android.graphics.Color.TRANSPARENT)
-                            secondButton.text = ""
-                            secondButton.setTextColor(android.graphics.Color.TRANSPARENT)
-
+                    if (firstButton !== secondButton) {
+                        if (firstButtonNumber == secondButtonNumber) {
+                            score += 10
+                            view.findViewById<TextView>(R.id.tvScore).text = score.toString()
                             firstButton = null
-                        }, 1000)
+
+                            if (buttons.all { it.text.isNotEmpty() }) {
+                                transitionToFDua()
+                            }
+                        } else {
+                            score -= 5
+                            view.findViewById<TextView>(R.id.tvScore).text = score.toString()
+
+                            if (score <= 0) {
+                                transitionToFDua()
+                            }
+
+                            Handler().postDelayed({
+                                firstButton?.text = ""
+                                firstButton?.setTextColor(android.graphics.Color.TRANSPARENT)
+                                secondButton.text = ""
+                                secondButton.setTextColor(android.graphics.Color.TRANSPARENT)
+
+                                firstButton = null
+                            }, 500)
+                        }
+                    } else {
+                        firstButton?.text = ""
+                        firstButton?.setTextColor(android.graphics.Color.TRANSPARENT)
+                        firstButton = null
                     }
                 }
             }
         }
     }
+
 
     companion object {
         @JvmStatic
