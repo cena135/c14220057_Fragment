@@ -44,6 +44,10 @@ class fSatu : Fragment() {
             transitionToFDua()
         }
 
+        param1?.let {
+            score = it.toIntOrNull() ?: 50
+        }
+
     }
 
     override fun onCreateView(

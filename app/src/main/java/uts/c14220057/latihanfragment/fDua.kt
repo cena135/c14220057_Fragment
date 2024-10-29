@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView // Import the TextView class
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +29,7 @@ class fDua : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
@@ -42,6 +44,17 @@ class fDua : Fragment() {
         tvScore.text = "$score"
 
         return view
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val btnPlayAgain = view.findViewById<Button>(R.id.btnPlayAgain)
+        btnPlayAgain.setOnClickListener {
+            val fragment = fSatu.newInstance("50", "")
+            fragmentManager?.beginTransaction()?.replace(R.id.frameContainer, fragment)?.commit()
+        }
     }
 
     companion object {
